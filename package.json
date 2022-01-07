@@ -1,0 +1,33 @@
+{
+	"name": "get-dep-tree",
+	"version": "0.0.0",
+	"description": "Use npm's Arborist to get a dependency tree for a package.",
+	"main": "index.js",
+	"exports": {
+		".": "./index.js",
+		"./package.json": "./package.json"
+	},
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/ljharb/get-dep-tree.git"
+	},
+	"keywords": [
+		"npm",
+		"tree",
+		"virtual",
+		"ideal",
+		"actual",
+		"dependency",
+		"lockfile",
+		"arborist"
+	],
+	"author": "Jordan Harband <ljharb@gmail.com>",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/ljharb/get-dep-tree/issues"
+	},
+	"homepage": "https://github.com/ljharb/get-dep-tree#readme"
+}
