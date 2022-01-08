@@ -6,6 +6,10 @@ const { manifest } = require('pacote');
 const lockfileInfo = require('lockfile-info');
 const flat = require('array.prototype.flat');
 
+/**
+ * @param tree {import('./types').Tree}
+ * @param options {import('./types').PruneOptions}
+ */
 function prune(tree, {
 	dev: keepDev,
 	production: keepProduction,
@@ -21,6 +25,9 @@ function prune(tree, {
 	return tree;
 }
 
+/**
+ * @param options {import('./types').GetBaseTreeOptions}
+ */
 async function getBaseTree({
 	mode,
 	arb,
@@ -77,8 +84,14 @@ async function getBaseTree({
 	return arb.buildIdealTree({ fullMetadata, packumentCache, update: true });
 }
 
+/** @type {import('./types').Logger} */
 const defaultLogger = (x) => console.log(x);
 
+/**
+ * @param mode {import('./types').Mode}
+ * @param options? {import('./types').GetTreeOptions}
+ * @returns tree {import('./types').Tree}
+ */
 module.exports = async function getTree(mode, {
 	dev = false,
 	peer = true,
