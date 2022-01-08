@@ -1,6 +1,6 @@
 // https://github.com/DefinitelyTyped/DefinitelyTyped/pull/58063
 declare module 'lockfile-info' {
-    export type LockfileInfo = {
+    interface LockfileInfo {
         hasPackageJSON: boolean;
         hasNodeModulesDir: boolean;
         hasLockfile: boolean;
@@ -8,6 +8,7 @@ declare module 'lockfile-info' {
         hasShrinkwrap: boolean;
         lockfileVersion: typeof NaN | 1 | 2 | 3; // https://github.com/microsoft/TypeScript/issues/47347
     }
-    async function lockfileInfo(cwd?: string): Promise<LockfileInfo>
+    /** @async */
+    function lockfileInfo(cwd?: string): Promise<LockfileInfo>;
     export = lockfileInfo;
 }

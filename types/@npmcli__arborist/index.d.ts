@@ -1,9 +1,11 @@
 declare module '@npmcli/arborist' {
-    import type { Packument, PacoteOptions } from 'pacote';
+    import type { PacoteOptions } from 'pacote';
 
-    export type Tree = { children: { values: typeof Array.prototype.values } };
+    type Tree = { children: { values: typeof Array.prototype.values } };
 
-    export = class Arborist {
+    class Node {}
+
+    class Arborist {
         constructor({}: {
             fullMetadata?: PacoteOptions['fullMetadata'];
             packumentCache?: PacoteOptions['packumentCache'];
@@ -28,6 +30,8 @@ declare module '@npmcli/arborist' {
             update?: boolean | { all: boolean };
         }): Tree
 
-        static Node = class Node {}
+        static Node: Node
     }
+
+    export = Arborist
 }
