@@ -4,6 +4,7 @@ const Arborist = require('@npmcli/arborist');
 const colors = require('colors/safe');
 const { manifest } = require('pacote');
 const lockfileInfo = require('lockfile-info');
+const flat = require('array.prototype.flat');
 
 function prune(tree, {
 	dev: keepDev,
@@ -35,10 +36,10 @@ async function getBaseTree({
 	} = await lockfileInfo();
 
 	if (mode === 'actual' || (mode === 'auto' && hasNodeModulesDir)) {
-		const messages = [].concat(
+		const messages = flat([
 			hasNodeModulesDir ? `\`${colors.gray('node_modules')}\` found` : [],
 			mode === 'actual' ? 'mode is “actual”' : [],
-		);
+		]);
 		logger(colors.green(`${messages.join(', ')}; loading tree from disk...`));
 		return arb.loadActual({ fullMetadata: true, packumentCache });
 	}
@@ -57,18 +58,18 @@ async function getBaseTree({
 			));
 			return tree;
 		}
-		const messages = [].concat(
+		const messages = flat([
 			hasLockfile ? 'Lockfile found' : [],
 			mode === 'virtual' ? 'mode is “virtual”' : [],
-		);
+		]);
 		logger(colors.green(`${messages.join(', ')}; loading virtual tree from lockfile...`));
 		return arb.loadVirtual({ fullMetadata: true, packumentCache });
 	}
 
-	const messages = [].concat(
+	const messages = flat([
 		`\`${colors.gray('package.json')}\` ${hasPackageJSON ? '' : 'not '}found`,
 		mode === 'ideal' ? 'mode is “ideal”' : [],
-	);
+	]);
 	logger(colors.green(`${messages.join(', ')}; building ideal tree from \`${colors.gray('package.json')}\`...`));
 	return arb.buildIdealTree({ fullMetadata, packumentCache, update: true });
 }

@@ -39,6 +39,7 @@
 	"homepage": "https://github.com/ljharb/get-dep-tree#readme",
 	"dependencies": {
 		"@npmcli/arborist": "^4.2.0",
+		"array.prototype.flat": "^1.2.5",
 		"colors": "^1.4.0",
 		"lockfile-info": "^1.0.0",
 		"pacote": "^12.0.2"
