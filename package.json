@@ -8,7 +8,11 @@
 		"./package.json": "./package.json"
 	},
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"lint": "eslint --ext=js,mjs .",
+		"pretest": "npm run lint",
+		"tests-only": "nyc tape 'test/**/*.js'",
+		"test": "npm run tests-only",
+		"posttest": "aud --production"
 	},
 	"repository": {
 		"type": "git",
@@ -25,9 +29,29 @@
 		"arborist"
 	],
 	"author": "Jordan Harband <ljharb@gmail.com>",
+	"funding": {
+		"url": "https://github.com/sponsors/ljharb"
+	},
 	"license": "MIT",
 	"bugs": {
 		"url": "https://github.com/ljharb/get-dep-tree/issues"
 	},
-	"homepage": "https://github.com/ljharb/get-dep-tree#readme"
+	"homepage": "https://github.com/ljharb/get-dep-tree#readme",
+	"dependencies": {
+		"@npmcli/arborist": "^4.2.0",
+		"colors": "^1.4.0",
+		"lockfile-info": "^1.0.0",
+		"pacote": "^12.0.2"
+	},
+	"engines": {
+		"node": ">= 16 || ^14.15 || ^12.13"
+	},
+	"devDependencies": {
+		"@ljharb/eslint-config": "^20.1.0",
+		"aud": "^1.1.5",
+		"eslint": "^8.6.0",
+		"nyc": "^15.1.0",
+		"sinon-sandbox": "^2.0.6",
+		"tape": "^5.4.0"
+	}
 }
