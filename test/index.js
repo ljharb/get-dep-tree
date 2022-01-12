@@ -2,8 +2,7 @@
 
 const test = require('tape');
 const sinon = require('sinon-sandbox');
-const Arborist = require('@npmcli/arborist');
-const { Node } = Arborist;
+const { Node } = require('@npmcli/arborist');
 
 const getTree = require('..');
 const { stripColors } = require('colors/safe');
