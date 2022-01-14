@@ -60,5 +60,6 @@ declare module '@npmcli/arborist' {
         static Shrinkwrap: Shrinkwrap
     }
 
-    export = Arborist
+    export { Node, Link, Edge, Shrinkwrap, Arborist}
+    export default Arborist
 }

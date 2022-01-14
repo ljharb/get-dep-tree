@@ -1,6 +1,6 @@
 'use strict';
 
-const Arborist = require('@npmcli/arborist');
+const { Arborist } = require('@npmcli/arborist');
 const colors = require('colors/safe');
 const { manifest } = require('pacote');
 const lockfileInfo = require('lockfile-info');

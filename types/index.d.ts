@@ -1,4 +1,4 @@
-import type Arborist = require('@npmcli/arborist');
+import type { Arborist } from '@npmcli/arborist';
 
 export type Mode = 'actual' | 'ideal' | 'virtual' | 'auto';
 
