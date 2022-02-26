@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.0.2](https://github.com/ljharb/get-dep-tree/compare/v1.0.1...v1.0.2) - 2022-02-26
+
+### Commits
+
+- [Dev Deps] update `@ljharb/eslint-config`, `auto-changelog`, `tape` [`a5c10d2`](https://github.com/ljharb/get-dep-tree/commit/a5c10d274f32729cae62f0ffb617fd76c8c6a88f)
+- [Dev Deps] update `eslint`, `@ljharb/eslint-config`, `aud`, `tape` [`fd29727`](https://github.com/ljharb/get-dep-tree/commit/fd297273f93d1b46496cacf6512e8657ddcfd0d4)
+- [Deps] update `@npmcli/arborist`, `pacote` [`c63b858`](https://github.com/ljharb/get-dep-tree/commit/c63b858f1827f0a4d2c1255dc77e10067c138b82)
+- [Deps] update `@npmcli/arborist`, `pacote` [`b68cb53`](https://github.com/ljharb/get-dep-tree/commit/b68cb53f1b674944a01ebf0a97843f7098133237)
+
 ## [v1.0.1](https://github.com/ljharb/get-dep-tree/compare/v1.0.0...v1.0.1) - 2022-01-09
 
 ### Commits
