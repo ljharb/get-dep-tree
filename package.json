@@ -54,7 +54,7 @@
 		"node": ">= 16 || ^14.15 || ^12.13"
 	},
 	"devDependencies": {
-		"@ljharb/eslint-config": "^20.2.3",
+		"@ljharb/eslint-config": "^21.0.0",
 		"aud": "^2.0.0",
 		"auto-changelog": "^2.4.0",
 		"eslint": "=8.8.0",
@@ -62,7 +62,7 @@
 		"nyc": "^15.1.0",
 		"safe-publish-latest": "^2.0.0",
 		"sinon-sandbox": "^2.0.6",
-		"tape": "^5.5.2"
+		"tape": "^5.5.3"
 	},
 	"auto-changelog": {
 		"output": "CHANGELOG.md",
