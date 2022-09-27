@@ -1,6 +1,6 @@
 {
 	"name": "get-dep-tree",
-	"version": "1.0.2",
+	"version": "1.0.3",
 	"description": "Use npm's Arborist to get a dependency tree for a package.",
 	"main": "index.js",
 	"exports": {

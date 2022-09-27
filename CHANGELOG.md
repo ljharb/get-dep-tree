@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.0.3](https://github.com/ljharb/get-dep-tree/compare/v1.0.2...v1.0.3) - 2022-09-27
+
+### Commits
+
+- [meta] use `npmignore` to autogenerate an npmignore file [`e452e1e`](https://github.com/ljharb/get-dep-tree/commit/e452e1ee9b7de5dfc5c503a2919dc1e0e835a331)
+- [Deps] update `@npmcli/arborist`, `array.prototype.flat`, `pacote` [`93921de`](https://github.com/ljharb/get-dep-tree/commit/93921de6151b31967388e97fe96694b2eedeab98)
+- [Deps] update `@npmcli/arborist`, `pacote` [`6492202`](https://github.com/ljharb/get-dep-tree/commit/649220275e0e407649e68ab0ef88c7ac0be3db50)
+- [Dev Deps] update `aud`, `tape` [`d35e7d0`](https://github.com/ljharb/get-dep-tree/commit/d35e7d09ee8b5d6f6146ff57cf1571a53a02aad4)
+- [Dev Deps] update `@ljharb/eslint-config`, `tape` [`a35640c`](https://github.com/ljharb/get-dep-tree/commit/a35640cfe81e334f5b1a1fcda9a624164fe99c31)
+- [Deps] update `@npmcli/arborist` [`93bb682`](https://github.com/ljharb/get-dep-tree/commit/93bb68236c16ac60da33315af27114b2956df1c8)
+
 ## [v1.0.2](https://github.com/ljharb/get-dep-tree/compare/v1.0.1...v1.0.2) - 2022-02-26
 
 ### Commits
