@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.0.4](https://github.com/ljharb/get-dep-tree/compare/v1.0.3...v1.0.4) - 2022-12-19
+
+### Commits
+
+- [actions] update checkout action [`ec968a2`](https://github.com/ljharb/get-dep-tree/commit/ec968a265167fd8e37c6d8d5e59f90311539a0b0)
+- [Deps] unpin arborist, `pacote`; update `array.prototype.flat` [`78098e4`](https://github.com/ljharb/get-dep-tree/commit/78098e4fd900a35a0189b15aa76402604762d851)
+- [Dev Deps] update `aud` [`7225fed`](https://github.com/ljharb/get-dep-tree/commit/7225fedac4a5bf1d4692b30af311fe4431398ceb)
+
 ## [v1.0.3](https://github.com/ljharb/get-dep-tree/compare/v1.0.2...v1.0.3) - 2022-09-27
 
 ### Commits
