@@ -43,6 +43,7 @@ async function getBaseTree({
 	} = await lockfileInfo();
 
 	if (mode === 'actual' || (mode === 'auto' && hasNodeModulesDir)) {
+		/** @type {string[]} */
 		const messages = flat([
 			hasNodeModulesDir ? `\`${colors.gray('node_modules')}\` found` : [],
 			mode === 'actual' ? 'mode is “actual”' : [],
@@ -68,6 +69,7 @@ async function getBaseTree({
 			));
 			return tree;
 		}
+		/** @type {string[]} */
 		const messages = flat([
 			hasLockfile ? 'Lockfile found' : [],
 			mode === 'virtual' ? 'mode is “virtual”' : [],
@@ -76,6 +78,7 @@ async function getBaseTree({
 		return arb.loadVirtual({ fullMetadata: true, packumentCache });
 	}
 
+	/** @type {string[]} */
 	const messages = flat([
 		`\`${colors.gray('package.json')}\` ${hasPackageJSON ? '' : 'not '}found`,
 		mode === 'ideal' ? 'mode is “ideal”' : [],

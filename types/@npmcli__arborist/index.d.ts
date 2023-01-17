@@ -29,6 +29,7 @@ declare module '@npmcli/arborist' {
 
     class Arborist {
         constructor({}: {
+            Arborist: typeof Arborist;
             fullMetadata?: PacoteOptions['fullMetadata'];
             packumentCache?: PacoteOptions['packumentCache'];
             path?: string;
