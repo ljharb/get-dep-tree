@@ -53,7 +53,10 @@ async function getBaseTree({
 				tree.children.values(),
 				async (node) => {
 					// eslint-disable-next-line no-param-reassign
-					node.package = await manifest(`${node.name}@${node.package.version}`, { fullMetadata: true, packumentCache });
+					node.package = await manifest(`${node.name}@${node.package.version}`, {
+						fullMetadata: true,
+						packumentCache,
+					});
 				},
 			));
 			return tree;
@@ -86,6 +89,7 @@ module.exports = async function getTree(mode, {
 	logger = defaultLogger,
 } = {}) {
 	const arb = new Arborist({
+		Arborist, // TODO: investigate why this absurdity is necessary
 		fullMetadata,
 		packumentCache,
 		path,
