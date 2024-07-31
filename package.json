@@ -52,7 +52,7 @@
 		"pacote": "^15.2.0"
 	},
 	"engines": {
-		"node": ">= 19 || ^18.12 || ^16.13 || ^14.17"
+		"node": ">= 19 || ^18 || ^16.13 || ^14.18"
 	},
 	"devDependencies": {
 		"@ljharb/eslint-config": "^21.1.1",
