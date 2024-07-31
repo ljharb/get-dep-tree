@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v2.0.0](https://github.com/ljharb/get-dep-tree/compare/v1.0.4...v2.0.0) - 2024-07-30
+
+### Commits
+
+- [Breaking] update `@npmcli/arborist`, `pacote`; drop node &lt; 16.13 [`676df63`](https://github.com/ljharb/get-dep-tree/commit/676df63f4ef2a54ea5380b51e94274801936e292)
+- [Dev Deps] update `@ljharb/eslint-config`, `aud`, `npmignore`, `tape` [`3161deb`](https://github.com/ljharb/get-dep-tree/commit/3161debed8bf549e5e2a22ea94a34994e2071735)
+- [Dev Deps] update `@ljharb/eslint-config`, `aud`, `tape` [`2c77dc4`](https://github.com/ljharb/get-dep-tree/commit/2c77dc453fd423dcc64fad095646a5b3a503d028)
+- [Deps] update `@npmcli/arborist`, `array.prototype.flat`, `pacote` [`29c3031`](https://github.com/ljharb/get-dep-tree/commit/29c30313b0a8993b8d998b8557ba186282d52548)
+- [meta] allow node 18-18.11, fix 14.18 threshold [`b2ce981`](https://github.com/ljharb/get-dep-tree/commit/b2ce98181ae641028e30c9f372bd1afc1d2f1cc8)
+- [Deps] update `arborist`, `pacote` [`3c4cd63`](https://github.com/ljharb/get-dep-tree/commit/3c4cd6384388f06ffdf2c1bda942a95e2f4e8d99)
+- [Deps] update arborist, `pacote` [`2ee521c`](https://github.com/ljharb/get-dep-tree/commit/2ee521c49ff86fe9c912caf542a314647b2add04)
+- [Dev Deps] update `@ljharb/eslint-config`, `tape` [`733e553`](https://github.com/ljharb/get-dep-tree/commit/733e553ab0c3009439c6843ed4b4c4b89a6ee181)
+- [Deps] update `@npmcli/arborist` [`8b71507`](https://github.com/ljharb/get-dep-tree/commit/8b715078e5fc9d916302701daf97f2b8ba798efc)
+- [Deps] update arborist [`4833548`](https://github.com/ljharb/get-dep-tree/commit/48335483d68ed6aca1e3d8ad7af7b34228033c65)
+
 ## [v1.0.4](https://github.com/ljharb/get-dep-tree/compare/v1.0.3...v1.0.4) - 2022-12-19
 
 ### Commits
