@@ -56,14 +56,14 @@
 	},
 	"devDependencies": {
 		"@ljharb/eslint-config": "^21.1.1",
-		"auto-changelog": "^2.4.0",
+		"auto-changelog": "^2.5.0",
 		"eslint": "=8.8.0",
 		"evalmd": "^0.0.19",
 		"npmignore": "^0.3.1",
 		"nyc": "^15.1.0",
 		"safe-publish-latest": "^2.0.0",
 		"sinon-sandbox": "^2.0.6",
-		"tape": "^5.8.1"
+		"tape": "^5.9.0"
 	},
 	"auto-changelog": {
 		"output": "CHANGELOG.md",
