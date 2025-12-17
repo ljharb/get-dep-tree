@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v2.0.1](https://github.com/ljharb/get-dep-tree/compare/v2.0.0...v2.0.1) - 2025-12-16
+
+### Commits
+
+- [Tests] add types [`177b7aa`](https://github.com/ljharb/get-dep-tree/commit/177b7aa7f5627a25170048b200f00a9de61de2fc)
+- [Dev Deps] update `eslint`, `@ljharb/eslint-config` [`f68834f`](https://github.com/ljharb/get-dep-tree/commit/f68834f6e29089c800435c76d910f92b693ee587)
+- [actions] clean up workflows [`4fe3159`](https://github.com/ljharb/get-dep-tree/commit/4fe3159c8da08075b4d1486408c2f0d9f06bd2ee)
+- [Dev Deps] update `eslint`, `@ljharb/eslint-config`, `npmignore` [`0d0e59a`](https://github.com/ljharb/get-dep-tree/commit/0d0e59a38c2e00909ca3b4e40c8db11165a4cd24)
+- [Deps] update `array.prototype.flat`, `lockfile-info` [`c5cd1a6`](https://github.com/ljharb/get-dep-tree/commit/c5cd1a68bf821aac88a6d9e84cc866f03251d5cd)
+- [Dev Deps] update `auto-changelog`, `tape` [`aa3de6c`](https://github.com/ljharb/get-dep-tree/commit/aa3de6c267f5c7f4c8b100c48d08f8d7d6621b48)
+- [Tests] replace `aud` with `npm audit` [`31f5e57`](https://github.com/ljharb/get-dep-tree/commit/31f5e57deff513fc11a532c86698904b912ff15f)
+- [Dev Deps] update `@ljharb/eslint-config` [`67f5bfa`](https://github.com/ljharb/get-dep-tree/commit/67f5bfa4fcc5ad70d50f67a6d5fc965d29c477a0)
+- [Dev Deps] add missing peer dep [`e05aac5`](https://github.com/ljharb/get-dep-tree/commit/e05aac53a41b6ba89ea1afb1a65bff205bb2ec91)
+
 ## [v2.0.0](https://github.com/ljharb/get-dep-tree/compare/v1.0.4...v2.0.0) - 2024-07-30
 
 ### Commits
