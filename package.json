@@ -53,7 +53,7 @@
 		"pacote": "^15.2.0"
 	},
 	"engines": {
-		"node": ">= 19 || ^18 || ^16.13 || ^14.18"
+		"node": "^22.21 || ^24.12 || >= 25.2"
 	},
 	"devDependencies": {
 		"@arethetypeswrong/cli": "^0.18.2",

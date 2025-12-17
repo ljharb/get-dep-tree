@@ -6,7 +6,7 @@ jobs:
   tests:
     uses: ljharb/actions/.github/workflows/node.yml@main
     with:
-      range: '>= 19 || ^18 || ^16.13 || ^14.18'
+      range: '^22.21 || ^24.12 || >= 25.2'
       type: minors
       command: npm run tests-only
 
