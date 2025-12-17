@@ -55,7 +55,6 @@ async function getBaseTree({
 		if (hasLockfile && lockfileVersion < 2) {
 			const messages = ['v1 lockfile found'].concat(mode === 'virtual' ? 'mode is “virtual”' : []);
 			logger(colors.green(`${messages.join(', ')}; loading ideal tree from lockfile...`));
-			// @ts-expect-error TODO: fix Arborist types to include fullMetadata
 			const tree = /** @type {Tree} */ (await arb.buildIdealTree({ fullMetadata: true }));
 			await Promise.all(Array.from(
 				tree.children.values(),
@@ -82,7 +81,6 @@ async function getBaseTree({
 		mode === 'ideal' ? 'mode is “ideal”' : [],
 	]);
 	logger(colors.green(`${messages.join(', ')}; building ideal tree from \`${colors.gray('package.json')}\`...`));
-	// @ts-expect-error TODO: fix Arborist types to include fullMetadata
 	return arb.buildIdealTree({ fullMetadata, packumentCache, update: true });
 }
 

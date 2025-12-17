@@ -1,6 +1,13 @@
 {
 	"extends": "@ljharb/tsconfig",
 
+	"compilerOptions": {
+		"paths": {
+			"@npmcli/arborist": ["./types/npmcli__arborist"],
+			"pacote": ["./types/pacote"]
+		}
+	},
+
 	"exclude": [
 		"coverage/",
 	],
