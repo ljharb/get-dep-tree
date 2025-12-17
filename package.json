@@ -70,7 +70,7 @@
 		"eslint": "^9.39.2",
 		"evalmd": "^0.0.19",
 		"npmignore": "^0.3.2",
-		"nyc": "^15.1.0",
+		"nyc": "^17.1.0",
 		"safe-publish-latest": "^2.0.0",
 		"sinon-sandbox": "^2.0.6",
 		"tape": "^5.9.0",
