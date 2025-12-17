@@ -6,6 +6,12 @@ const { manifest } = require('pacote');
 const lockfileInfo = require('lockfile-info');
 const flat = require('array.prototype.flat');
 
+/** @typedef {import('./index.d.ts')} GetTree */
+/** @typedef {import('./index.d.ts').Tree} Tree */
+/** @typedef {import('./index.d.ts').Mode} Mode */
+/** @typedef {import('./index.d.ts').Options} Options */
+
+/** @type {(tree: Tree, options: { dev: boolean, production: boolean, peer: boolean }) => Tree} */
 function prune(tree, {
 	dev: keepDev,
 	production: keepProduction,
@@ -21,6 +27,7 @@ function prune(tree, {
 	return tree;
 }
 
+/** @type {(x: { mode: Mode, arb: Arborist } & Required<Pick<Options, 'fullMetadata' | 'packumentCache' | 'logger'>>) => Promise<Tree>} */
 async function getBaseTree({
 	mode,
 	arb,
@@ -48,12 +55,13 @@ async function getBaseTree({
 		if (hasLockfile && lockfileVersion < 2) {
 			const messages = ['v1 lockfile found'].concat(mode === 'virtual' ? 'mode is “virtual”' : []);
 			logger(colors.green(`${messages.join(', ')}; loading ideal tree from lockfile...`));
-			const tree = await arb.buildIdealTree({ fullMetadata: true });
+			// @ts-expect-error TODO: fix Arborist types to include fullMetadata
+			const tree = /** @type {Tree} */ (await arb.buildIdealTree({ fullMetadata: true }));
 			await Promise.all(Array.from(
 				tree.children.values(),
 				async (node) => {
 					// eslint-disable-next-line no-param-reassign
-					node.package = await manifest(`${node.name}@${node.package.version}`, {
+					node.package = await manifest(`${node.name}@${/** @type {NonNullable<typeof node.package>} */ (node.package).version}`, {
 						fullMetadata: true,
 						packumentCache,
 					});
@@ -74,11 +82,14 @@ async function getBaseTree({
 		mode === 'ideal' ? 'mode is “ideal”' : [],
 	]);
 	logger(colors.green(`${messages.join(', ')}; building ideal tree from \`${colors.gray('package.json')}\`...`));
+	// @ts-expect-error TODO: fix Arborist types to include fullMetadata
 	return arb.buildIdealTree({ fullMetadata, packumentCache, update: true });
 }
 
+/** @type {(x: unknown) => void} */
 const defaultLogger = (x) => console.log(x);
 
+/** @type {import('./index.d.ts')} */
 module.exports = async function getTree(mode, {
 	dev = false,
 	peer = true,
