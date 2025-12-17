@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v3.0.0](https://github.com/ljharb/get-dep-tree/compare/v2.0.1...v3.0.0) - 2025-12-16
+
+### Commits
+
+- [Deps] update `@npmcli/arborist`, `pacote` [`9866d98`](https://github.com/ljharb/get-dep-tree/commit/9866d988e4c515f5512e9ab1f8932e4a17b593a6)
+- [Refactor] use `util.styleText` instead of `colors` [`a3fe342`](https://github.com/ljharb/get-dep-tree/commit/a3fe342e94e6b87f16ac46ce2cc5c523a523a01e)
+- [meta] ship fewer files [`69242bd`](https://github.com/ljharb/get-dep-tree/commit/69242bd0300451cd1694a228d3dc6841473037b9)
+- [Breaking] require node 22 [`8c19d8b`](https://github.com/ljharb/get-dep-tree/commit/8c19d8b3df895299db2306ce38b5c8075e3c2d6d)
+- [Tests] update `nyc` [`f798b3d`](https://github.com/ljharb/get-dep-tree/commit/f798b3dc477dde91a36abe14c0a95e0854f8c848)
+
 ## [v2.0.1](https://github.com/ljharb/get-dep-tree/compare/v2.0.0...v2.0.1) - 2025-12-16
 
 ### Commits
