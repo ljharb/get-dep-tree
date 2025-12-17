@@ -1,7 +1,7 @@
 'use strict';
 
 const Arborist = require('@npmcli/arborist');
-const colors = require('colors/safe');
+const { styleText } = require('util');
 const { manifest } = require('pacote');
 const lockfileInfo = require('lockfile-info');
 const flat = require('array.prototype.flat');
@@ -44,17 +44,17 @@ async function getBaseTree({
 
 	if (mode === 'actual' || (mode === 'auto' && hasNodeModulesDir)) {
 		const messages = flat([
-			hasNodeModulesDir ? `\`${colors.gray('node_modules')}\` found` : [],
+			hasNodeModulesDir ? `\`${styleText('gray', 'node_modules')}\` found` : [],
 			mode === 'actual' ? 'mode is “actual”' : [],
 		]);
-		logger(colors.green(`${messages.join(', ')}; loading tree from disk...`));
+		logger(styleText('green', `${messages.join(', ')}; loading tree from disk...`));
 		return arb.loadActual({ fullMetadata: true, packumentCache });
 	}
 
 	if (mode === 'virtual' || (mode === 'auto' && hasLockfile)) {
 		if (hasLockfile && lockfileVersion < 2) {
 			const messages = ['v1 lockfile found'].concat(mode === 'virtual' ? 'mode is “virtual”' : []);
-			logger(colors.green(`${messages.join(', ')}; loading ideal tree from lockfile...`));
+			logger(styleText('green', `${messages.join(', ')}; loading ideal tree from lockfile...`));
 			const tree = /** @type {Tree} */ (await arb.buildIdealTree({ fullMetadata: true }));
 			await Promise.all(Array.from(
 				tree.children.values(),
@@ -72,15 +72,15 @@ async function getBaseTree({
 			hasLockfile ? 'Lockfile found' : [],
 			mode === 'virtual' ? 'mode is “virtual”' : [],
 		]);
-		logger(colors.green(`${messages.join(', ')}; loading virtual tree from lockfile...`));
+		logger(styleText('green', `${messages.join(', ')}; loading virtual tree from lockfile...`));
 		return arb.loadVirtual({ fullMetadata: true, packumentCache });
 	}
 
 	const messages = flat([
-		`\`${colors.gray('package.json')}\` ${hasPackageJSON ? '' : 'not '}found`,
+		`\`${styleText('gray', 'package.json')}\` ${hasPackageJSON ? '' : 'not '}found`,
 		mode === 'ideal' ? 'mode is “ideal”' : [],
 	]);
-	logger(colors.green(`${messages.join(', ')}; building ideal tree from \`${colors.gray('package.json')}\`...`));
+	logger(styleText('green', `${messages.join(', ')}; building ideal tree from \`${styleText('gray', 'package.json')}\`...`));
 	return arb.buildIdealTree({ fullMetadata, packumentCache, update: true });
 }
 

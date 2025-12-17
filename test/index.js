@@ -5,7 +5,7 @@ const sinon = require('sinon-sandbox');
 const { Node } = require('@npmcli/arborist');
 
 const getTree = require('..');
-const { stripColors } = require('colors/safe');
+const { stripVTControlCharacters } = require('util');
 
 test('getTree: auto', async (t) => {
 	t.teardown(() => sinon.restore());
@@ -17,7 +17,7 @@ test('getTree: auto', async (t) => {
 	const tree = await p;
 
 	t.deepEqual(
-		logger.getCalls().map((x) => x.args.map((arg) => stripColors(arg))),
+		logger.getCalls().map((x) => x.args.map((arg) => stripVTControlCharacters(arg))),
 		[
 			['`node_modules` found; loading tree from disk...'],
 		],
@@ -37,7 +37,7 @@ test('getTree: actual', async (t) => {
 	const tree = await p;
 
 	t.deepEqual(
-		logger.getCalls().map((x) => x.args.map((arg) => stripColors(arg))),
+		logger.getCalls().map((x) => x.args.map((arg) => stripVTControlCharacters(arg))),
 		[
 			['`node_modules` found, mode is “actual”; loading tree from disk...'],
 		],
@@ -60,7 +60,7 @@ test('getTree: virtual', async (t) => {
 	});
 
 	t.deepEqual(
-		logger.getCalls().map((x) => x.args.map((arg) => stripColors(arg))),
+		logger.getCalls().map((x) => x.args.map((arg) => stripVTControlCharacters(arg))),
 		[
 			['mode is “virtual”; loading virtual tree from lockfile...'],
 		],
@@ -78,7 +78,7 @@ test('getTree: ideal', async (t) => {
 	const tree = await p;
 
 	t.deepEqual(
-		logger.getCalls().map((x) => x.args.map((arg) => stripColors(arg))),
+		logger.getCalls().map((x) => x.args.map((arg) => stripVTControlCharacters(arg))),
 		[
 			['`package.json` found, mode is “ideal”; building ideal tree from `package.json`...'],
 		],

@@ -48,7 +48,6 @@
 	"dependencies": {
 		"@npmcli/arborist": "^9.1.9",
 		"array.prototype.flat": "^1.3.3",
-		"colors": "=1.4.0",
 		"lockfile-info": "^1.1.0",
 		"pacote": "^21.0.4"
 	},
