@@ -36,5 +36,5 @@ getDepTree().then((tree) => {
 [downloads-url]: https://npm-stat.com/charts.html?package=get-dep-tree
 [codecov-image]: https://codecov.io/gh/ljharb/get-dep-tree/branch/main/graphs/badge.svg
 [codecov-url]: https://app.codecov.io/gh/ljharb/get-dep-tree/
-[actions-image]: https://img.shields.io/endpoint?url=https://github-actions-badge-u3jn4tfpocch.runkit.sh/ljharb/get-dep-tree
+[actions-image]: https://img.shields.io/github/check-runs/ljharb/get-dep-tree/main
 [actions-url]: https://github.com/ljharb/get-dep-tree/actions
