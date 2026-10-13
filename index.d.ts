@@ -61,7 +61,7 @@ declare function getTree(
 declare namespace getTree {
     type Mode = 'actual' | 'ideal' | 'virtual' | 'auto';
     type Tree = TreeNode;
-    type Options = {
+    type Options = Arborist.Options & {
         dev?: boolean;
         peer?: boolean;
         production?: boolean;
@@ -69,6 +69,8 @@ declare namespace getTree {
         packumentCache?: NonNullable<ConstructorParameters<typeof Arborist>[0]>['packumentCache'];
         path?: string;
         logger?: typeof console.log;
+        forceActual?: boolean;
+        registry?: string;
     };
 }
 

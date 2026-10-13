@@ -4,6 +4,7 @@ const test = require('tape');
 const sinon = require('sinon-sandbox');
 const { Node } = require('@npmcli/arborist');
 const fs = require('fs');
+const http = require('http');
 const path = require('path');
 const os = require('os');
 
@@ -17,9 +18,53 @@ function createFixture(files) {
 	// arborist roots a symlinked `path` (eg, macOS `/var` -> `/private/var`) as a Link with no children
 	const tmpDir = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'get-dep-tree-test-')));
 	Object.keys(files).forEach((name) => {
+		fs.mkdirSync(path.dirname(path.join(tmpDir, name)), { recursive: true });
 		fs.writeFileSync(path.join(tmpDir, name), JSON.stringify(files[name]));
 	});
 	return tmpDir;
+}
+
+/** @type {(node: import('..').Tree | undefined, key: string) => unknown} */
+function pkgField(node, key) {
+	const pkg = /** @type {Record<string, unknown> | undefined} */ (/** @type {unknown} */ (node && node.package));
+	return pkg && pkg[key];
+}
+
+/** @type {() => Promise<{ registry: string, authKey: string, requests: import('http').IncomingMessage[], close: () => Promise<void> }>} */
+async function createRegistry() {
+	/** @type {import('http').IncomingMessage[]} */
+	const requests = [];
+	const server = http.createServer((req, res) => {
+		requests.push(req);
+		const { port } = /** @type {import('net').AddressInfo} */ (server.address());
+		const registry = `http://127.0.0.1:${port}/`;
+		if (req.url === '/is-positive') {
+			res.writeHead(200, { 'content-type': 'application/json' });
+			res.end(JSON.stringify({
+				name: 'is-positive',
+				'dist-tags': { latest: '1.0.0' },
+				versions: {
+					'1.0.0': {
+						name: 'is-positive',
+						version: '1.0.0',
+						description: 'served by the test registry',
+						dist: { tarball: `${registry}is-positive/-/is-positive-1.0.0.tgz` },
+					},
+				},
+			}));
+		} else {
+			res.writeHead(404, { 'content-type': 'application/json' });
+			res.end('{}');
+		}
+	});
+	await new Promise((resolve) => { server.listen(0, '127.0.0.1', () => resolve(undefined)); });
+	const { port } = /** @type {import('net').AddressInfo} */ (server.address());
+	return {
+		registry: `http://127.0.0.1:${port}/`,
+		authKey: `//127.0.0.1:${port}/:_authToken`,
+		requests,
+		close: () => new Promise((resolve) => { server.close(() => resolve(undefined)); }),
+	};
 }
 
 test('getTree: auto', async (t) => {
@@ -404,6 +449,123 @@ test('getTree: auto detects lockfile and `node_modules` at `path`, not the cwd',
 	t.ok(tree instanceof Node);
 	t.equal(tree.path, tmpDir, 'tree is rooted at `path`');
 	t.deepEqual(Array.from(tree.children.keys()), ['is-positive'], 'tree has the lockfile’s dependencies');
+});
+
+test('getTree: passes `registry` and other npm config options through to arborist', async (t) => {
+	const { registry, authKey, requests, close } = await createRegistry();
+	const tmpDir = createFixture({
+		'package.json': {
+			name: 'test-registry-ideal',
+			version: '1.0.0',
+			dependencies: { 'is-positive': '1.0.0' },
+		},
+	});
+	t.teardown(async () => {
+		await close();
+		fs.rmSync(tmpDir, { recursive: true, force: true });
+	});
+
+	const tree = await getTree('ideal', {
+		logger: sinon.stub(),
+		path: tmpDir,
+		registry,
+		[authKey]: 'test-token',
+		cache: path.join(tmpDir, '.cache'),
+	});
+
+	const child = tree.children.get('is-positive');
+	t.equal(child && child.version, '1.0.0', 'dependency was resolved');
+	t.ok(requests.length > 0, 'the test registry was used');
+	t.deepEqual(
+		requests.map((req) => req.headers.authorization),
+		requests.map(() => 'Bearer test-token'),
+		'the registry auth token was sent with every request',
+	);
+});
+
+test('getTree: passes `registry` and other npm config options through to pacote, with a v1 lockfile', async (t) => {
+	const { registry, authKey, requests, close } = await createRegistry();
+	const tmpDir = createFixture({
+		'package.json': {
+			name: 'test-registry-v1',
+			version: '1.0.0',
+			dependencies: { 'is-positive': '1.0.0' },
+		},
+		'package-lock.json': {
+			name: 'test-registry-v1',
+			version: '1.0.0',
+			lockfileVersion: 1,
+			requires: true,
+			dependencies: {
+				'is-positive': {
+					version: '1.0.0',
+					resolved: 'https://registry.npmjs.org/is-positive/-/is-positive-1.0.0.tgz',
+				},
+			},
+		},
+	});
+	t.teardown(async () => {
+		await close();
+		fs.rmSync(tmpDir, { recursive: true, force: true });
+	});
+
+	const tree = await getTree('virtual', {
+		logger: sinon.stub(),
+		path: tmpDir,
+		registry,
+		[authKey]: 'test-token',
+		cache: path.join(tmpDir, '.cache'),
+	});
+
+	t.equal(
+		pkgField(tree.children.get('is-positive'), 'description'),
+		'served by the test registry',
+		'manifest came from the test registry',
+	);
+	t.ok(requests.length > 0, 'the test registry was used');
+	t.deepEqual(
+		requests.map((req) => req.headers.authorization),
+		requests.map(() => 'Bearer test-token'),
+		'the registry auth token was sent with every request',
+	);
+});
+
+test('getTree: `forceActual` reads `package.json` files instead of the hidden lockfile', async (t) => {
+	const tmpDir = createFixture({
+		'package.json': {
+			name: 'test-force-actual',
+			version: '1.0.0',
+			dependencies: { foo: '1.0.0' },
+		},
+		'node_modules/foo/package.json': {
+			name: 'foo',
+			version: '1.0.0',
+			license: 'MIT',
+			repository: 'ljharb/foo',
+		},
+		'node_modules/.package-lock.json': {
+			name: 'test-force-actual',
+			version: '1.0.0',
+			lockfileVersion: 3,
+			requires: true,
+			packages: {
+				'node_modules/foo': {
+					version: '1.0.0',
+					license: 'MIT',
+				},
+			},
+		},
+	});
+	t.teardown(() => {
+		fs.rmSync(tmpDir, { recursive: true, force: true });
+	});
+
+	const hidden = await getTree('actual', { logger: sinon.stub(), path: tmpDir });
+	t.equal(pkgField(hidden.children.get('foo'), 'license'), 'MIT', 'hidden lockfile: has lockfile fields');
+	t.equal(pkgField(hidden.children.get('foo'), 'repository'), undefined, 'hidden lockfile: lacks non-lockfile fields');
+
+	const actual = await getTree('actual', { logger: sinon.stub(), path: tmpDir, forceActual: true });
+	t.equal(pkgField(actual.children.get('foo'), 'repository'), 'ljharb/foo', '`forceActual`: has the real `package.json` fields');
 });
 
 // TODO: fixture tests, to cover all scenarios with all modes, and check an actual tree

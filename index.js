@@ -27,7 +27,7 @@ function prune(tree, {
 	return tree;
 }
 
-/** @type {(x: { mode: Mode, arb: Arborist } & Required<Pick<Options, 'fullMetadata' | 'packumentCache' | 'path' | 'logger'>>) => Promise<Tree>} */
+/** @type {(x: { mode: Mode, arb: Arborist } & Required<Pick<Options, 'fullMetadata' | 'packumentCache' | 'path' | 'logger' | 'forceActual'>>) => Promise<Tree>} */
 async function getBaseTree({
 	mode,
 	arb,
@@ -35,6 +35,7 @@ async function getBaseTree({
 	fullMetadata,
 	packumentCache,
 	logger,
+	forceActual,
 }) {
 	const {
 		hasNodeModulesDir,
@@ -49,7 +50,7 @@ async function getBaseTree({
 			mode === 'actual' ? 'mode is “actual”' : [],
 		]);
 		logger(styleText('green', `${messages.join(', ')}; loading tree from disk...`));
-		return arb.loadActual({ fullMetadata: true, packumentCache });
+		return arb.loadActual({ forceActual, fullMetadata: true, packumentCache });
 	}
 
 	if (mode === 'virtual' || (mode === 'auto' && hasLockfile)) {
@@ -62,6 +63,7 @@ async function getBaseTree({
 				async (node) => {
 					// eslint-disable-next-line no-param-reassign
 					node.package = await manifest(`${node.name}@${/** @type {NonNullable<typeof node.package>} */ (node.package).version}`, {
+						...arb.options,
 						fullMetadata: true,
 						packumentCache,
 					});
@@ -97,8 +99,11 @@ module.exports = async function getTree(mode, {
 	packumentCache = new Map(),
 	path = process.cwd(),
 	logger = defaultLogger,
+	forceActual = false,
+	...npmOptions
 } = {}) {
 	const arb = new Arborist({
+		...npmOptions,
 		Arborist, // TODO: investigate why this absurdity is necessary
 		fullMetadata,
 		packumentCache,
@@ -111,6 +116,7 @@ module.exports = async function getTree(mode, {
 		packumentCache,
 		path,
 		logger,
+		forceActual,
 	});
 	prune(tree, {
 		dev,

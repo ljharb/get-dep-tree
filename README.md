@@ -23,6 +23,30 @@ getDepTree().then((tree) => {
 });
 ```
 
+## API
+
+### `getDepTree(mode, options = {})`
+
+Returns a Promise for an Arborist `Node` representing the root of the tree.
+
+`mode` is one of:
+ - `'actual'`: load the tree from `node_modules` on disk
+ - `'virtual'`: load the tree from `package-lock.json` (a v1 lockfile is used to build an ideal tree)
+ - `'ideal'`: build an ideal tree from `package.json`, using the registry
+ - `'auto'`: `'actual'` if `path` has a `node_modules` directory, otherwise `'virtual'` if it has a `package-lock.json`, otherwise `'ideal'`
+
+`options`:
+ - `path`: the package directory to load. Default: `process.cwd()`
+ - `dev`: keep dev dependencies. Default: `false`
+ - `production`: keep production dependencies. Default: `true`
+ - `peer`: keep peer dependencies. Default: `true`
+ - `fullMetadata`: passed through to `@npmcli/arborist` and `pacote`, for registry fetches. Default: `false`. Note that `@npmcli/arborist` always fetches full manifests while building an ideal tree, that top-level nodes from a v1 lockfile are always given full manifests, and that `'actual'` and `'virtual'` modes otherwise do not fetch from the registry, so `node.package` only has what is on disk (see `forceActual`) or in the lockfile.
+ - `packumentCache`: a `Map` to cache packuments in; share one across calls to avoid refetching. Default: a new `Map`
+ - `logger`: a function called with progress messages. Default: `console.log`
+ - `forceActual`: when loading from `node_modules` (`'actual'` mode, or `'auto'` mode when `node_modules` exists), ignore the hidden lockfile (`node_modules/.package-lock.json`), so each node's `package` is its real `package.json`, rather than the subset of fields the hidden lockfile stores. Default: `false`
+ - `registry`: the registry URL. Default: `'https://registry.npmjs.org/'`
+ - any other flattened npm config options (eg, `cache`, `offline`, or `'//registry.example.com/:_authToken'`) are passed through to `@npmcli/arborist` and `pacote`. Note that `.npmrc` files are not read; use `@npmcli/config` to load and flatten them.
+
 [package-url]: https://npmjs.org/package/get-dep-tree
 [npm-version-svg]: https://versionbadg.es/ljharb/get-dep-tree.svg
 [deps-svg]: https://david-dm.org/ljharb/get-dep-tree.svg
