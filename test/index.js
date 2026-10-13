@@ -70,7 +70,7 @@ test('getTree: virtual', async (t) => {
 
 	await p.then(null, (e) => {
 		t.ok(e instanceof Error, 'is an Error');
-		t.equal(e.message, 'loadVirtual requires existing shrinkwrap file');
+		t.match(e.message, /^loadVirtual requires existing (?:shrinkwrap|package-lock\.json) file$/, 'has expected message');
 	});
 
 	t.deepEqual(
