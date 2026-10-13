@@ -27,10 +27,11 @@ function prune(tree, {
 	return tree;
 }
 
-/** @type {(x: { mode: Mode, arb: Arborist } & Required<Pick<Options, 'fullMetadata' | 'packumentCache' | 'logger'>>) => Promise<Tree>} */
+/** @type {(x: { mode: Mode, arb: Arborist } & Required<Pick<Options, 'fullMetadata' | 'packumentCache' | 'path' | 'logger'>>) => Promise<Tree>} */
 async function getBaseTree({
 	mode,
 	arb,
+	path,
 	fullMetadata,
 	packumentCache,
 	logger,
@@ -40,7 +41,7 @@ async function getBaseTree({
 		hasLockfile,
 		hasPackageJSON,
 		lockfileVersion,
-	} = await lockfileInfo();
+	} = await lockfileInfo(path);
 
 	if (mode === 'actual' || (mode === 'auto' && hasNodeModulesDir)) {
 		const messages = flat([
@@ -108,6 +109,7 @@ module.exports = async function getTree(mode, {
 		arb,
 		fullMetadata,
 		packumentCache,
+		path,
 		logger,
 	});
 	prune(tree, {

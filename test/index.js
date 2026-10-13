@@ -360,4 +360,50 @@ test('getTree: auto with no package.json', async (t) => {
 	t.ok(tree instanceof Node);
 });
 
+test('getTree: auto detects lockfile and `node_modules` at `path`, not the cwd', async (t) => {
+	const tmpDir = createFixture({
+		'package.json': {
+			name: 'test-auto-path',
+			version: '1.0.0',
+			dependencies: { 'is-positive': '1.0.0' },
+		},
+		'package-lock.json': {
+			name: 'test-auto-path',
+			version: '1.0.0',
+			lockfileVersion: 3,
+			requires: true,
+			packages: {
+				'': {
+					name: 'test-auto-path',
+					version: '1.0.0',
+					dependencies: { 'is-positive': '1.0.0' },
+				},
+				'node_modules/is-positive': {
+					version: '1.0.0',
+					resolved: 'https://registry.npmjs.org/is-positive/-/is-positive-1.0.0.tgz',
+				},
+			},
+		},
+	});
+	t.teardown(() => {
+		fs.rmSync(tmpDir, { recursive: true, force: true });
+	});
+
+	t.equal(process.cwd(), originalCwd, 'cwd is the package root, which has `node_modules`');
+
+	const logger = sinon.stub();
+	const tree = await getTree('auto', { logger, path: tmpDir });
+
+	t.deepEqual(
+		logger.getCalls().map((x) => x.args.map((arg) => stripVTControlCharacters(arg))),
+		[
+			['Lockfile found; loading virtual tree from lockfile...'],
+		],
+		'expected messages were logged',
+	);
+	t.ok(tree instanceof Node);
+	t.equal(tree.path, tmpDir, 'tree is rooted at `path`');
+	t.deepEqual(Array.from(tree.children.keys()), ['is-positive'], 'tree has the lockfile’s dependencies');
+});
+
 // TODO: fixture tests, to cover all scenarios with all modes, and check an actual tree
