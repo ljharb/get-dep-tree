@@ -64,6 +64,7 @@ declare namespace getTree {
     type Options = Arborist.Options & {
         dev?: boolean;
         peer?: boolean;
+        optional?: boolean;
         production?: boolean;
         fullMetadata?: boolean;
         packumentCache?: NonNullable<ConstructorParameters<typeof Arborist>[0]>['packumentCache'];

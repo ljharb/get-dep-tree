@@ -742,4 +742,38 @@ test('getTree: pruning applies at every depth', async (t) => {
 	);
 });
 
+test('getTree: `optional: false`', async (t) => {
+	const tmpDir = createFlagsFixture();
+	t.teardown(() => {
+		fs.rmSync(tmpDir, { recursive: true, force: true });
+	});
+
+	const noOptional = await getTree('virtual', { logger: sinon.stub(), path: tmpDir, optional: false });
+	t.deepEqual(
+		locations(noOptional),
+		[
+			'node_modules/a',
+			'node_modules/a/node_modules/q',
+			'node_modules/a/node_modules/w',
+			'node_modules/p',
+		],
+		'with `dev: false`, prunes optional deps at every depth, and deps of both the dev and optional hierarchies',
+	);
+
+	const devNoOptional = await getTree('virtual', { logger: sinon.stub(), path: tmpDir, dev: true, optional: false });
+	t.deepEqual(
+		locations(devNoOptional),
+		[
+			'node_modules/a',
+			'node_modules/a/node_modules/q',
+			'node_modules/a/node_modules/w',
+			'node_modules/both',
+			'node_modules/c',
+			'node_modules/c/node_modules/d',
+			'node_modules/p',
+		],
+		'with `dev: true`, prunes optional deps at every depth, but keeps deps of both the dev and optional hierarchies',
+	);
+});
+
 // TODO: fixture tests, to cover all scenarios with all modes, and check an actual tree

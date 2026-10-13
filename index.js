@@ -11,16 +11,18 @@ const flat = require('array.prototype.flat');
 /** @typedef {import('./index.d.ts').Mode} Mode */
 /** @typedef {import('./index.d.ts').Options} Options */
 
-/** @type {(tree: Tree, options: { dev: boolean, production: boolean, peer: boolean }) => Tree} */
+/** @type {(tree: Tree, options: { dev: boolean, production: boolean, peer: boolean, optional: boolean }) => Tree} */
 function prune(tree, {
 	dev: keepDev,
 	production: keepProduction,
 	peer: keepPeer,
+	optional: keepOptional,
 }) {
 	/** @type {Parameters<Tree['shouldOmit']>[0]} */
 	const omit = new Set(flat([
 		keepDev ? [] : 'dev',
 		keepPeer ? [] : 'peer',
+		keepOptional ? [] : 'optional',
 	]));
 	const omitted = Array.from(tree.inventory.values()).filter((node) => node !== tree && (
 		node.shouldOmit(omit)
@@ -100,6 +102,7 @@ const defaultLogger = (x) => console.log(x);
 module.exports = async function getTree(mode, {
 	dev = false,
 	peer = true,
+	optional = true,
 	production = true,
 	fullMetadata = false,
 	packumentCache = new Map(),
@@ -128,6 +131,7 @@ module.exports = async function getTree(mode, {
 		dev,
 		production,
 		peer,
+		optional,
 	});
 	return tree;
 };
