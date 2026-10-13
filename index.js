@@ -6,7 +6,7 @@ const { manifest } = require('pacote');
 const lockfileInfo = require('lockfile-info');
 const flat = require('array.prototype.flat');
 
-/** @typedef {import('./index.d.ts')} GetTree */
+/** @typedef {typeof import('./index.d.ts')} GetTree */
 /** @typedef {import('./index.d.ts').Tree} Tree */
 /** @typedef {import('./index.d.ts').Mode} Mode */
 /** @typedef {import('./index.d.ts').Options} Options */
@@ -87,7 +87,7 @@ async function getBaseTree({
 /** @type {(x: unknown) => void} */
 const defaultLogger = (x) => console.log(x);
 
-/** @type {import('./index.d.ts')} */
+/** @type {typeof import('./index.d.ts')} */
 module.exports = async function getTree(mode, {
 	dev = false,
 	peer = true,
