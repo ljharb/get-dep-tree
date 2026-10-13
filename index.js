@@ -17,12 +17,18 @@ function prune(tree, {
 	production: keepProduction,
 	peer: keepPeer,
 }) {
-	if (!keepDev || !keepProduction) {
-		for (const node of tree.children.values()) {
-			if ((!keepDev && node.dev) || (!keepProduction && !node.dev) || (!keepPeer && node.peer)) {
-				node.root = null;
-			}
-		}
+	/** @type {Parameters<Tree['shouldOmit']>[0]} */
+	const omit = new Set(flat([
+		keepDev ? [] : 'dev',
+		keepPeer ? [] : 'peer',
+	]));
+	const omitted = Array.from(tree.inventory.values()).filter((node) => node !== tree && (
+		node.shouldOmit(omit)
+		// a `devOptional` node that is neither `dev` nor `optional` is needed by both the dev and optional hierarchies
+		|| (!keepProduction && !node.dev && !(node.devOptional && !node.optional))
+	));
+	for (const node of omitted) {
+		node.root = null;
 	}
 	return tree;
 }

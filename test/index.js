@@ -568,4 +568,178 @@ test('getTree: `forceActual` reads `package.json` files instead of the hidden lo
 	t.equal(pkgField(actual.children.get('foo'), 'repository'), 'ljharb/foo', '`forceActual`: has the real `package.json` fields');
 });
 
+/** @type {() => string} */
+function createFlagsFixture() {
+	return createFixture({
+		'package.json': {
+			name: 'root',
+			version: '1.0.0',
+			dependencies: {
+				a: '1.0.0',
+			},
+			devDependencies: {
+				c: '1.0.0',
+			},
+			optionalDependencies: {
+				o: '1.0.0',
+			},
+		},
+		'package-lock.json': {
+			name: 'root',
+			version: '1.0.0',
+			lockfileVersion: 3,
+			requires: true,
+			packages: {
+				'': {
+					name: 'root',
+					version: '1.0.0',
+					dependencies: {
+						a: '1.0.0',
+					},
+					devDependencies: {
+						c: '1.0.0',
+					},
+					optionalDependencies: {
+						o: '1.0.0',
+					},
+				},
+				'node_modules/a': {
+					version: '1.0.0',
+					dependencies: {
+						w: '1.0.0',
+					},
+					optionalDependencies: {
+						ox: '1.0.0',
+					},
+					peerDependencies: {
+						p: '1.0.0',
+					},
+				},
+				'node_modules/a/node_modules/w': {
+					version: '1.0.0',
+					peerDependencies: {
+						q: '1.0.0',
+					},
+				},
+				'node_modules/a/node_modules/q': {
+					version: '1.0.0',
+					peer: true,
+				},
+				'node_modules/a/node_modules/ox': {
+					version: '1.0.0',
+					optional: true,
+				},
+				'node_modules/p': {
+					version: '1.0.0',
+					peer: true,
+				},
+				'node_modules/c': {
+					version: '1.0.0',
+					dev: true,
+					dependencies: {
+						d: '1.0.0',
+						both: '1.0.0',
+					},
+					optionalDependencies: {
+						e: '1.0.0',
+					},
+				},
+				'node_modules/c/node_modules/d': {
+					version: '1.0.0',
+					dev: true,
+				},
+				'node_modules/c/node_modules/e': {
+					version: '1.0.0',
+					dev: true,
+					optional: true,
+				},
+				'node_modules/o': {
+					version: '1.0.0',
+					optional: true,
+					dependencies: {
+						both: '1.0.0',
+					},
+				},
+				'node_modules/both': {
+					version: '1.0.0',
+					devOptional: true,
+				},
+			},
+		},
+	});
+}
+
+/** @type {(tree: import('..').Tree) => string[]} */
+function locations(tree) {
+	return Array.from(tree.inventory.values(), (node) => node.location).filter(Boolean).sort();
+}
+
+test('getTree: pruning applies at every depth', async (t) => {
+	const tmpDir = createFlagsFixture();
+	t.teardown(() => {
+		fs.rmSync(tmpDir, { recursive: true, force: true });
+	});
+
+	const all = await getTree('virtual', { logger: sinon.stub(), path: tmpDir, dev: true });
+	t.deepEqual(
+		locations(all),
+		[
+			'node_modules/a',
+			'node_modules/a/node_modules/ox',
+			'node_modules/a/node_modules/q',
+			'node_modules/a/node_modules/w',
+			'node_modules/both',
+			'node_modules/c',
+			'node_modules/c/node_modules/d',
+			'node_modules/c/node_modules/e',
+			'node_modules/o',
+			'node_modules/p',
+		],
+		'`dev: true`: nothing is pruned',
+	);
+
+	const prod = await getTree('virtual', { logger: sinon.stub(), path: tmpDir });
+	t.deepEqual(
+		locations(prod),
+		[
+			'node_modules/a',
+			'node_modules/a/node_modules/ox',
+			'node_modules/a/node_modules/q',
+			'node_modules/a/node_modules/w',
+			'node_modules/both',
+			'node_modules/o',
+			'node_modules/p',
+		],
+		'defaults: dev deps are pruned; a dep of both the dev and optional hierarchies is kept',
+	);
+
+	const noPeer = await getTree('virtual', { logger: sinon.stub(), path: tmpDir, dev: true, peer: false });
+	t.deepEqual(
+		locations(noPeer),
+		[
+			'node_modules/a',
+			'node_modules/a/node_modules/ox',
+			'node_modules/a/node_modules/w',
+			'node_modules/both',
+			'node_modules/c',
+			'node_modules/c/node_modules/d',
+			'node_modules/c/node_modules/e',
+			'node_modules/o',
+		],
+		'`peer: false` alone prunes peer deps, including nested ones',
+	);
+
+	const devOnly = await getTree('virtual', { logger: sinon.stub(), path: tmpDir, dev: true, production: false });
+	t.deepEqual(
+		locations(devOnly),
+		[
+			'node_modules/both',
+			'node_modules/c',
+			'node_modules/c/node_modules/d',
+			'node_modules/c/node_modules/e',
+		],
+		'`production: false` prunes everything not needed by the dev hierarchy',
+	);
+});
+
 // TODO: fixture tests, to cover all scenarios with all modes, and check an actual tree

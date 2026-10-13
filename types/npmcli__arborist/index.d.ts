@@ -183,6 +183,7 @@ declare namespace Arborist {
 		matches(node: Node): boolean;
 		replaceWith(node: Node): void;
 		replace(node: Node): void;
+		shouldOmit(omitSet: Set<'dev' | 'optional' | 'peer'>): boolean;
 	}
 
 	class Link extends Node {
