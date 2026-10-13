@@ -740,6 +740,13 @@ test('getTree: pruning applies at every depth', async (t) => {
 		],
 		'`production: false` prunes everything not needed by the dev hierarchy',
 	);
+
+	const nothing = await getTree('virtual', { logger: sinon.stub(), path: tmpDir, production: false });
+	t.deepEqual(
+		locations(nothing),
+		[],
+		'`production: false` with `dev: false` prunes everything, including deps of both the dev and optional hierarchies',
+	);
 });
 
 test('getTree: `optional: false`', async (t) => {

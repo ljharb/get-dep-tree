@@ -27,7 +27,7 @@ function prune(tree, {
 	const omitted = Array.from(tree.inventory.values()).filter((node) => node !== tree && (
 		node.shouldOmit(omit)
 		// a `devOptional` node that is neither `dev` nor `optional` is needed by both the dev and optional hierarchies
-		|| (!keepProduction && !node.dev && !(node.devOptional && !node.optional))
+		|| (!keepProduction && !node.dev && !(keepDev && node.devOptional && !node.optional))
 	));
 	for (const node of omitted) {
 		node.root = null;

@@ -38,7 +38,7 @@ Returns a Promise for an Arborist `Node` representing the root of the tree.
 `options`:
  - `path`: the package directory to load. Default: `process.cwd()`
  - `dev`: keep dev dependencies. Default: `false`
- - `production`: keep production dependencies; when `false`, only nodes needed by the dev hierarchy are kept. Default: `true`
+ - `production`: keep production dependencies; when `false`, only nodes needed by the dev hierarchy are kept (so with `dev: false` as well, every dependency is pruned). Default: `true`
  - `peer`: keep peer dependencies. Default: `true`
  - `optional`: keep optional dependencies. Default: `true`
  - `fullMetadata`: passed through to `@npmcli/arborist` and `pacote`, for registry fetches. Default: `false`. Note that `@npmcli/arborist` always fetches full manifests while building an ideal tree, that top-level nodes from a v1 lockfile are always given full manifests, and that `'actual'` and `'virtual'` modes otherwise do not fetch from the registry, so `node.package` only has what is on disk (see `forceActual`) or in the lockfile.
