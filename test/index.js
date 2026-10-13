@@ -14,7 +14,8 @@ const originalCwd = process.cwd();
 
 /** @param {{ [k in string]: import('@npmcli/arborist').Node['package'] | import('@npmcli/arborist').PackageLock }} files */
 function createFixture(files) {
-	const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'get-dep-tree-test-'));
+	// arborist roots a symlinked `path` (eg, macOS `/var` -> `/private/var`) as a Link with no children
+	const tmpDir = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'get-dep-tree-test-')));
 	Object.keys(files).forEach((name) => {
 		fs.writeFileSync(path.join(tmpDir, name), JSON.stringify(files[name]));
 	});
@@ -188,7 +189,7 @@ test('getTree: virtual with v1 lockfile', async (t) => {
 	});
 
 	const logger = sinon.stub();
-	const tree = await getTree('virtual', { logger, path: originalCwd });
+	const tree = await getTree('virtual', { logger, path: tmpDir });
 
 	t.equal(logger.callCount, 1, 'logger called once');
 	t.equal(
@@ -339,7 +340,7 @@ test('getTree: auto with v2 lockfile, no node_modules', async (t) => {
 });
 
 test('getTree: auto with no package.json', async (t) => {
-	const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'get-dep-tree-test-'));
+	const tmpDir = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'get-dep-tree-test-')));
 	process.chdir(tmpDir);
 	t.teardown(() => {
 		process.chdir(originalCwd);
