@@ -5,6 +5,27 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v3.1.0](https://github.com/ljharb/get-dep-tree/compare/v3.0.0...v3.1.0) - 2026-10-14
+
+### Commits
+
+- [Tests] increase coverage [`fb6f807`](https://github.com/ljharb/get-dep-tree/commit/fb6f807792c5fc3d39fd11266175a591a39c97b2)
+- [New] add `forceActual` option; pass `registry` and other npm config options through to `@npmcli/arborist` and `pacote` [`15e7d72`](https://github.com/ljharb/get-dep-tree/commit/15e7d7221f213abf9e196c2f0ef8049f7e1d7123)
+- [Fix] prune at every depth, not just top-level children; honor `peer: false` alone [`c3ce0d7`](https://github.com/ljharb/get-dep-tree/commit/c3ce0d722fbde71fe01ba5b1ebf64b96cbdcc8ec)
+- [Fix] `auto` mode: detect lockfile and `node_modules` at `path`, not the cwd [`f4a0d2f`](https://github.com/ljharb/get-dep-tree/commit/f4a0d2f5eebb72af20c8213e1466afe61bba44e1)
+- [New] add `optional` option [`2e26f92`](https://github.com/ljharb/get-dep-tree/commit/2e26f92f8df90798a365865cc9b032eb0479bbce)
+- [Dev Deps] update `@arethetypeswrong/cli`, `@ljharb/eslint-config`, `auto-changelog`, `eslint`, `evalmd`, `tape` [`2d5d6f7`](https://github.com/ljharb/get-dep-tree/commit/2d5d6f730bd7f4ecf82ca7f7a53c54c3a1a1fbd3)
+- [Fix] `production: false` with `dev: false`: also prune deps of both the dev and optional hierarchies [`635d582`](https://github.com/ljharb/get-dep-tree/commit/635d5826a40e3b934c33b53a2c4c87e1bd765af2)
+- [Dev Deps] update `@ljharb/eslint-config`, `@types/node`, `eslint`, `npmignore` [`09e7f1c`](https://github.com/ljharb/get-dep-tree/commit/09e7f1c0fe4cc0ead14b4b88220a5803eeb104a7)
+- [Tests] use real fixture paths, and pass the fixture `path` in the v1 virtual test [`d95121e`](https://github.com/ljharb/get-dep-tree/commit/d95121ec1ce491e58c6742289b5af11a1c4550b0)
+- [Tests] fix type-checking under TypeScript 7 [`0798a78`](https://github.com/ljharb/get-dep-tree/commit/0798a7892fd9f333e3c7b0460e46a7bf174d624a)
+- [Dev Deps] use `npx dt-clean --setup` [`a05da0d`](https://github.com/ljharb/get-dep-tree/commit/a05da0d80ec71776022e874766da93bcf7dac2f7)
+- [Deps] update `@npmcli/arborist`, `pacote` [`fd60ca9`](https://github.com/ljharb/get-dep-tree/commit/fd60ca97970149d6f9fb34425ea7c9e6d9e38063)
+- [Dev Deps] update `auto-changelog`; remove `encoding` [`a444955`](https://github.com/ljharb/get-dep-tree/commit/a444955fa6085a6873862dc3dde6111edc708910)
+- [Tests] accept both arborist 9 and 10 `loadVirtual` error messages [`1e9735c`](https://github.com/ljharb/get-dep-tree/commit/1e9735ceeb467d1af5cbf27803d0129369ffa558)
+- [actions] set least-privilege `cache-mode` [`4a6b3dd`](https://github.com/ljharb/get-dep-tree/commit/4a6b3dd2532e7c3b38af3cf2853167d67f5c3647)
+- [readme] replace runkit CI badge with shields.io check-runs badge [`ecec1ae`](https://github.com/ljharb/get-dep-tree/commit/ecec1aeb6a9a246480a0f83730c451539b62e214)
+
 ## [v3.0.0](https://github.com/ljharb/get-dep-tree/compare/v2.0.1...v3.0.0) - 2025-12-16
 
 ### Commits
